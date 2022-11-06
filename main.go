@@ -6,13 +6,16 @@ package main
       "fmt"
       _ "github.com/mattn/go-sqlite3"
       _ "github.com/go-sql-driver/mysql"
+      _ "github.com/lib/pq"
   )
 
   func main() {
     //insertToSQLite()
     //querySQLLite()
-    insertToMySQL()
-    queryMySQL()
+    //insertToMySQL()
+    //queryMySQL()
+    insertToPostgreSQL()
+    queryPostgreSQL()
   }
 
   func insertToSQLite() {
@@ -89,6 +92,27 @@ package main
   }
 
   func queryMySQL() {
+
+  }
+
+  func insertToPostgreSQL() {
+
+
+
+    psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", "localhost", 5432, "bucket_list_user", "Rep1ace_with_real_password!", "jenny-db")
+
+    db, err := sql.Open("postgres", psqlconn)
+    checkErr(err)
+
+    defer db.Close()
+
+    // dynamic
+    stmtIns := `insert into "bucket_list"("place", "country", "photo", "visited", "created_at") values($1, $2, $3, $4, $5)`
+    _, err = db.Exec(stmtIns, "chichen itza", "Mexico", "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Chichen_Itza_3.jpg/440px-Chichen_Itza_3.jpg", false, "2022-11-04")
+    checkErr(err)
+  }
+
+  func queryPostgreSQL() {
 
   }
 

@@ -16,7 +16,7 @@ CREATE TABLE `bucket_list` (
 
 ```
 -- MySQL
-CREATE TABLE `jenny-db` (
+CREATE TABLE `bucket_list` (
       `uid` INTEGER PRIMARY KEY AUTO_INCREMENT,
       `place` VARCHAR(64) NULL,
       `country` VARCHAR(64) NULL,
@@ -25,3 +25,15 @@ CREATE TABLE `jenny-db` (
       `created_at` DATE NULL
   );
 ```
+
+```
+-- PostgreSQL
+CREATE TABLE "bucket_list" (
+      "uid" SERIAL PRIMARY KEY,
+      "place" VARCHAR(64) NULL,
+      "country" VARCHAR(64) NULL,
+      "photo" VARCHAR(256) NULL,
+      "visited" BOOLEAN DEFAULT FALSE,
+      "created_at" DATE NULL
+  );
+  ``
