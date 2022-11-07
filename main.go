@@ -4,12 +4,20 @@ package main
      "time"
       "database/sql"
       "fmt"
+      "os"
+      "github.com/joho/godotenv"
       _ "github.com/mattn/go-sqlite3"
       _ "github.com/go-sql-driver/mysql"
       _ "github.com/lib/pq"
   )
 
   func main() {
+    err := godotenv.Load(".env")
+
+    if err != nil {
+        fmt.Println("Error loading .env file")
+    }
+
     //insertToSQLite()
     //querySQLLite()
     //insertToMySQL()
@@ -19,7 +27,10 @@ package main
   }
 
   func insertToSQLite() {
-    db, err := sql.Open("sqlite3", "./travel-map.db")
+    DB_PATH := os.Getenv("SQLITE_DB_PATH");
+    fmt.Println(fmt.Sprintf("PATH=%s",DB_PATH))
+
+    db, err := sql.Open("sqlite3", DB_PATH)
     checkErr(err)
 
     // insert
@@ -37,7 +48,7 @@ package main
   }
 
   func querySQLLite() {
-    db, err := sql.Open("sqlite3", "./travel-map.db")
+    db, err := sql.Open("sqlite3", os.Getenv("SQLITE_DB_PATH"))
     checkErr(err)
 
     // query
@@ -66,7 +77,7 @@ package main
   }
 
   func insertToMySQL() {
-    db, err := sql.Open("mysql", "bucket_list_user:Rep1ace_with_real_password!@tcp(34.145.40.45:3306)/jenny-db")
+    db, err := sql.Open("mysql", os.Getenv("MYSQL_USER")+":"+os.Getenv("MYSQL_PASS")+"@tcp("+os.Getenv("MYSQL_HOST")+":"+os.Getenv("MYSQL_PORT")+")/"+os.Getenv("MYSQL_DB"))
   	if err != nil {
   		panic(err.Error())  // Just for example purpose. You should use proper error handling instead of panic
   	}
@@ -96,10 +107,7 @@ package main
   }
 
   func insertToPostgreSQL() {
-
-
-
-    psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", "localhost", 5432, "bucket_list_user", "Rep1ace_with_real_password!", "jenny-db")
+    psqlconn := fmt.Sprintf("host='%s' port='%s' user='%s' password='%s' dbname='%s' sslmode=disable", os.Getenv("PSQL_HOST"), os.Getenv("PSQL_PORT"), os.Getenv("PSQL_USER"), os.Getenv("PSQL_PASS"), os.Getenv("PSQL_DB"))
 
     db, err := sql.Open("postgres", psqlconn)
     checkErr(err)

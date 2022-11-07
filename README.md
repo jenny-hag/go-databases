@@ -1,7 +1,15 @@
 # Databases
-In this project I will explore working with databases in go-lang
+In this project I will explore working with databases in go-lang.
+
+## Install
+Instructions for how to try this module out
+
+### Setup environment variables
+copy .env.example to .env and edit the details
 
 ### Create database
+Depending on which database you wan't to use, copy and paste from below:
+
 ```
 -- SQLite
 CREATE TABLE `bucket_list` (
