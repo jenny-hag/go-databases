@@ -21,9 +21,9 @@ package main
     //insertToSQLite()
     //querySQLLite()
     //insertToMySQL()
-    //queryMySQL()
-    insertToPostgreSQL()
-    queryPostgreSQL()
+    queryMySQL()
+    //insertToPostgreSQL()
+    //queryPostgreSQL()
   }
 
   func insertToSQLite() {
@@ -103,7 +103,32 @@ package main
   }
 
   func queryMySQL() {
+    db, err := sql.Open("mysql", os.Getenv("MYSQL_USER")+":"+os.Getenv("MYSQL_PASS")+"@tcp("+os.Getenv("MYSQL_HOST")+":"+os.Getenv("MYSQL_PORT")+")/"+os.Getenv("MYSQL_DB"))
+    checkErr(err)
 
+    // query
+    rows, err := db.Query("SELECT * FROM bucket_list")
+    checkErr(err)
+    var uid int
+    var place string
+    var country string
+    var photo string
+    var visited bool
+    var created_at string
+
+    for rows.Next() {
+        err = rows.Scan(&uid, &place, &country, &photo, &visited, &created_at)
+        checkErr(err)
+        fmt.Println(uid)
+        fmt.Println(place)
+        fmt.Println(country)
+        fmt.Println(photo)
+        fmt.Println(visited)
+        fmt.Println(created_at)
+    }
+
+    rows.Close()
+    db.Close()
   }
 
   func insertToPostgreSQL() {
